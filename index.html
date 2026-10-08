@@ -134,20 +134,16 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .aud b{display:block;font-size:12.5px;color:var(--navy-d);line-height:1.4}
 .aud p{font-size:11.3px;line-height:1.6;color:var(--muted)}
 
-/* modules panel */
+/* capabilities panel */
 .mods{list-style:none}
-.mod{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:8.5px 0;border-bottom:1px dashed var(--line)}
+.mod{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line)}
 .mod .num{width:30px;height:30px;border-radius:9px;background:var(--tint);color:var(--navy);font-weight:700;font-size:12px;display:grid;place-items:center;direction:ltr}
 .mod b{display:block;font-size:13.3px;color:var(--navy-d);line-height:1.35}
-.mod small{display:block;font-size:10.3px;color:var(--muted);line-height:1.4}
-.metric{font-size:12px;font-weight:700;color:var(--navy);background:var(--tint);padding:4px 8px;border-radius:8px;text-align:center;line-height:1.25;min-width:66px}
-.metric span{display:block;font-size:9.5px;font-weight:500;color:var(--muted)}
+.mod small{display:block;font-size:11px;color:var(--muted);line-height:1.4}
 .mod.hl{background:var(--navy-d);border-radius:12px;padding:10px;margin-top:8px;border:0}
 .mod.hl b{color:#fff}
 .mod.hl small{color:#a9cbe4}
 .mod.hl .num{background:var(--sky);color:#fff}
-.mod.hl .metric{background:rgba(255,255,255,.12);color:#fff}
-.mod.hl .metric span{color:#a9cbe4}
 .plus{margin-top:12px;display:flex;gap:8px}
 .plus div{flex:1;border:1px solid var(--line);border-radius:10px;padding:7px 9px;font-size:11px;line-height:1.5;color:var(--muted)}
 .plus b{display:block;color:var(--navy-d);font-size:12px}
@@ -319,10 +315,6 @@ table.cmp{width:100%;border-collapse:collapse;font-size:11px;margin-top:4px}
               <div class="bar"><i style="--v:93%"></i></div>
             </li>
             <li>
-              <div class="m-row"><span class="k">اللهجة</span><span class="val">سورية</span><span class="pct">75%</span></div>
-              <div class="bar"><i style="--v:75%"></i></div>
-            </li>
-            <li>
               <div class="m-row"><span class="k">خطاب الكراهية</span><span class="val">لا يوجد</span><span class="pct">89%</span></div>
               <div class="bar"><i style="--v:89%"></i></div>
             </li>
@@ -334,20 +326,20 @@ table.cmp{width:100%;border-collapse:collapse;font-size:11px;margin-top:4px}
       <!-- MIDDLE PANEL: front = inside-middle (modules) · back = back cover -->
       <div class="panel" id="pM">
         <section class="face front crease-both">
-          <span class="kicker">القدرات</span>
-          <h2>سبع مهام تحليلية في منصة واحدة</h2>
+          <span class="kicker">ماذا يقدّم Omid؟</span>
+          <h2>ضع أي خبر… ويخبرك Omid بما وراءه</h2>
           <ul class="mods">
-            <li class="mod"><span class="num">01</span><div><b>التحقق من المدخلات</b><small>حارس بوابة: ادعاء · ليس ادعاء · نص غير مفهوم</small></div><span class="metric">99.02%<span>F1-Macro</span></span></li>
-            <li class="mod"><span class="num">02</span><div><b>اكتشاف اللهجات</b><small>19 فئة: دول عربية + الفصحى</small></div><span class="metric">87.66%<span>Accuracy</span></span></li>
-            <li class="mod"><span class="num">03</span><div><b>تصنيف الموضوعات</b><small>هرمي: موجّه عام + 7 خبراء</small></div><span class="metric">97.1%<span>دقة الموجّه L1</span></span></li>
-            <li class="mod"><span class="num">04</span><div><b>تحليل المشاعر</b><small>دمج نموذجين CAMeLBERT + MARBERTv2</small></div><span class="metric">80%<span>Accuracy</span></span></li>
-            <li class="mod"><span class="num">05</span><div><b>كشف أساليب الدعاية</b><small>تصنيف متعدد التسميات لـ 21 أسلوباً</small></div><span class="metric">21<span>أسلوباً دعائياً</span></span></li>
-            <li class="mod"><span class="num">06</span><div><b>كشف خطاب الكراهية</b><small>MARBERTv2 بضبط دقيق</small></div><span class="metric">93.8%<span>Accuracy</span></span></li>
-            <li class="mod hl"><span class="num">07</span><div><b>اكتشاف الأخبار الكاذبة</b><small>هيئة وكلاء تتحقق بأدلة آنية</small></div><span class="metric">XAI<span>أحكام مفسّرة</span></span></li>
+            <li class="mod"><span class="num">01</span><div><b>فحص النص</b><small>يتأكد أن النص خبر أو ادعاء يمكن التحقق منه</small></div></li>
+            <li class="mod"><span class="num">02</span><div><b>معرفة اللهجة</b><small>يحدد اللهجة العربية التي كُتب بها الخبر</small></div></li>
+            <li class="mod"><span class="num">03</span><div><b>تحديد الموضوع</b><small>سياسة، اقتصاد، رياضة، صحة، تقنية…</small></div></li>
+            <li class="mod"><span class="num">04</span><div><b>قراءة المشاعر</b><small>هل نبرة الخبر إيجابية أم سلبية أم محايدة؟</small></div></li>
+            <li class="mod"><span class="num">05</span><div><b>كشف أساليب الدعاية</b><small>ينبّهك إلى التخويف واللغة المشحونة والتلاعب</small></div></li>
+            <li class="mod"><span class="num">06</span><div><b>كشف خطاب الكراهية</b><small>يرصد العبارات المسيئة لأي فئة أو جماعة</small></div></li>
+            <li class="mod hl"><span class="num">07</span><div><b>التحقق من صحة الخبر</b><small>يبحث عن أدلة موثوقة ويشرح لك لماذا الخبر صحيح أو مزيّف</small></div></li>
           </ul>
           <div class="plus">
-            <div><b>الرسم البياني المعرفي</b>ربط الكيانات والأحداث والمصادر عبر Neo4j</div>
-            <div><b>المساعد الذكي</b>دردشة تفاعلية مع استشهادات بالمصادر</div>
+            <div><b>خريطة المعرفة</b>تربط الأشخاص والأحداث والمصادر ببعضها</div>
+            <div><b>المساعد الذكي</b>اسأله عن أي خبر فيجيبك مع ذكر المصادر</div>
           </div>
           <div class="shade"></div>
         </section>
