@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Omid Brochure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#005A8F; --navy-d:#003B5E; --navy-dd:#022B45; --sky:#009BF5;
+  --ink:#12324A; --muted:#5D7689; --paper:#FFFFFF; --tint:#EDF6FD; --line:#DCE8F2;
+  --red:#D93A3F; --red-t:#FDEEEE; --red-l:#F4C6C8; --green:#16946A;
+  --W:340px; --H:720px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  background:radial-gradient(120% 90% at 50% 38%,#17405f 0%,#0b2236 55%,#06131f 100%);
+  color:#e3eef8; overflow:hidden; display:flex; flex-direction:column; height:100dvh;
+  -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+
+/* ---------- app chrome ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;gap:12px;flex:none}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px}
+.brand svg{width:36px;height:26px;color:#fff}
+.brand .sub{color:#8fb3cf;font-weight:400;font-size:13px;border-inline-start:1px solid #2c5675;padding-inline-start:10px}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;border:1px solid #2c5675;font-size:13px;color:#cfe3f3;transition:background .2s}
+.btn-ghost:hover{background:#12324d}
+.btn-ghost svg{width:16px;height:16px}
+
+.stage{flex:1;min-height:0;position:relative;overflow:hidden;touch-action:pan-y pinch-zoom;user-select:none;-webkit-user-select:none}
+.scaler{width:calc(var(--W) * 3);height:var(--H);position:absolute;left:50%;top:50%;margin-left:calc(var(--W) * -1.5);margin-top:calc(var(--H) / -2);transform-origin:50% 50%;perspective:2600px;perspective-origin:50% 45%}
+.floor{position:absolute;top:calc(var(--H) - 26px);height:60px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),rgba(0,0,0,0));filter:blur(8px);pointer-events:none}
+.sheet{position:absolute;inset:0;transform-style:preserve-3d;cursor:grab}
+.sheet:active{cursor:grabbing}
+.panel{position:absolute;top:0;width:var(--W);height:var(--H);transform-style:preserve-3d}
+#pL{left:0;transform-origin:100% 50%}
+#pM{left:var(--W)}
+#pR{left:calc(var(--W) * 2);transform-origin:0 50%}
+
+.controls{flex:none;display:flex;align-items:center;justify-content:center;gap:18px;padding:6px 16px 4px}
+.nav{width:44px;height:44px;border-radius:50%;border:1px solid #2c5675;display:grid;place-items:center;transition:background .2s,border-color .2s}
+.nav:hover{background:#12324d;border-color:#3f7aa3}
+.nav svg{width:18px;height:18px}
+.steps{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:180px}
+.dots{display:flex;gap:8px}
+.dots button{width:9px;height:9px;border-radius:50%;background:#2c5675;transition:background .25s,width .25s}
+.dots button[aria-current="true"]{background:var(--sky);width:26px;border-radius:5px}
+.label{font-size:13.5px;font-weight:600;color:#fff}
+.hint{flex:none;text-align:center;font-size:12px;color:#7d9fba;padding:2px 16px 14px}
+
+/* ---------- faces ---------- */
+.face{
+  position:absolute;inset:0;overflow:hidden;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:var(--paper);color:var(--ink);
+  padding:30px 26px 24px;font-size:12.5px;line-height:1.7;text-align:right;direction:rtl;
+}
+.face.back{transform:rotateY(180deg)}
+.shade{position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(90deg,rgba(2,22,38,.75),rgba(2,22,38,.45));z-index:5}
+/* fold creases */
+.crease-r::before,.crease-l::before,.crease-both::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:4}
+.crease-r::before{background:linear-gradient(to left,rgba(0,40,70,.10),rgba(0,40,70,0) 7%)}
+.crease-l::before{background:linear-gradient(to right,rgba(0,40,70,.10),rgba(0,40,70,0) 7%)}
+.crease-both::before{background:linear-gradient(to right,rgba(0,40,70,.09),rgba(0,40,70,0) 6%,rgba(0,40,70,0) 94%,rgba(0,40,70,.09))}
+
+.kicker{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:600;color:var(--navy);background:var(--tint);padding:2px 10px;border-radius:99px}
+.kicker::before{content:"";width:6px;height:6px;background:var(--sky);transform:rotate(45deg)}
+.face h2{font-size:21px;line-height:1.35;color:var(--navy-d);font-weight:700;margin:10px 0 12px}
+.face h3{font-size:14.5px;line-height:1.4;color:var(--navy-d);font-weight:700;margin:0 0 8px}
+.en{direction:ltr;unicode-bidi:isolate}
+.muted{color:var(--muted)}
+.sep{height:1px;background:var(--line);margin:16px 0}
+
+/* cover */
+.cover{background:radial-gradient(120% 70% at 90% 0%,#0b78b8 0%,rgba(11,120,184,0) 60%),linear-gradient(165deg,#005A8F 0%,#003D63 58%,#022B45 100%);color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:32px 28px 26px}
+.cover .dots-bg{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.6px);background-size:16px 16px;-webkit-mask-image:linear-gradient(to bottom,#000,transparent 55%);mask-image:linear-gradient(to bottom,#000,transparent 55%)}
+.cover .ring{position:absolute;width:560px;height:560px;border:46px solid rgba(255,255,255,.045);border-radius:50%;left:-300px;bottom:-250px}
+.cover > *{position:relative}
+.cover-top{font-size:11.5px;line-height:1.6;color:rgba(255,255,255,.78)}
+.cover-top b{display:block;color:#fff;font-size:13px;font-weight:600}
+.cover-brand{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:6px}
+.cover-brand svg{width:168px;height:119px;color:#fff}
+.wordmark{direction:ltr;font-size:48px;font-weight:700;letter-spacing:.5px;line-height:1}
+.wordmark b{color:var(--sky);font-weight:700}
+.cover h1{font-size:20.5px;line-height:1.55;font-weight:700;text-align:center;margin-top:4px}
+.cover .en{font-size:11px;line-height:1.5;color:rgba(255,255,255,.66);text-align:center;margin-top:8px}
+.cover-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.cover-tags span{font-size:11px;padding:3px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06)}
+.cover-foot{display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.16);padding-top:12px;font-size:11.5px;color:rgba(255,255,255,.75)}
+
+/* case panel */
+.post{border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:#fff;box-shadow:0 6px 18px rgba(0,59,94,.08)}
+.post-head{display:flex;align-items:center;gap:8px;font-size:10.5px;color:var(--muted)}
+.avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#cfd9e2,#e9eef3)}
+.post-text{font-size:11.8px;line-height:1.75;margin-top:7px;color:#24384a}
+.alert{color:var(--red);font-weight:700}
+.alert::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-inline-end:5px;vertical-align:1px}
+.arrow{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--navy);font-size:11px;font-weight:600;margin:9px 0}
+.arrow svg{width:14px;height:14px}
+.verdict{display:flex;gap:12px;align-items:center;background:var(--red-t);border:1px solid var(--red-l);border-radius:12px;padding:9px 12px}
+.verdict .v{text-align:center;flex:none}
+.verdict .v b{display:block;font-size:22px;line-height:1.2;color:var(--red)}
+.verdict .v span{font-size:11px;font-weight:600;color:var(--red)}
+.verdict p{font-size:11px;line-height:1.6;color:#5a2d30}
+.meters{list-style:none;margin-top:10px}
+.meters li{padding:6px 0;border-bottom:1px dashed var(--line)}
+.meters li:last-child{border-bottom:0}
+.m-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-size:11.5px}
+.m-row .k{color:var(--muted)}
+.m-row .val{font-weight:600;color:var(--navy-d)}
+.m-row .pct{font-weight:700;color:var(--navy);font-size:11px;direction:ltr}
+.bar{height:5px;background:var(--line);border-radius:3px;margin-top:4px;overflow:hidden}
+.bar i{display:block;height:100%;width:var(--v);background:linear-gradient(to left,var(--sky),var(--navy));border-radius:3px}
+.mini-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.mini-chips span{font-size:10px;padding:0 7px;border-radius:6px;background:#FFF4E5;color:#9a5a00}
+
+/* why panel */
+.lead{font-size:12.8px;line-height:1.8}
+.gaps{list-style:none;margin-top:12px;display:grid;gap:10px}
+.gaps li{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start}
+.ico{width:30px;height:30px;border-radius:9px;background:var(--tint);color:var(--navy);display:grid;place-items:center}
+.ico svg{width:17px;height:17px}
+.gaps b{display:block;color:var(--navy-d);font-size:12.8px;line-height:1.4}
+.gaps p{font-size:11.5px;line-height:1.6;color:var(--muted)}
+.aud{list-style:none;display:grid;gap:8px}
+.aud li{display:grid;grid-template-columns:22px 1fr;gap:8px}
+.aud .n{width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;margin-top:2px}
+.aud b{display:block;font-size:12.5px;color:var(--navy-d);line-height:1.4}
+.aud p{font-size:11.3px;line-height:1.6;color:var(--muted)}
+
+/* modules panel */
+.mods{list-style:none}
+.mod{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:8.5px 0;border-bottom:1px dashed var(--line)}
+.mod .num{width:30px;height:30px;border-radius:9px;background:var(--tint);color:var(--navy);font-weight:700;font-size:12px;display:grid;place-items:center;direction:ltr}
+.mod b{display:block;font-size:13.3px;color:var(--navy-d);line-height:1.35}
+.mod small{display:block;font-size:10.3px;color:var(--muted);line-height:1.4}
+.metric{font-size:12px;font-weight:700;color:var(--navy);background:var(--tint);padding:4px 8px;border-radius:8px;text-align:center;line-height:1.25;min-width:66px}
+.metric span{display:block;font-size:9.5px;font-weight:500;color:var(--muted)}
+.mod.hl{background:var(--navy-d);border-radius:12px;padding:10px;margin-top:8px;border:0}
+.mod.hl b{color:#fff}
+.mod.hl small{color:#a9cbe4}
+.mod.hl .num{background:var(--sky);color:#fff}
+.mod.hl .metric{background:rgba(255,255,255,.12);color:#fff}
+.mod.hl .metric span{color:#a9cbe4}
+.plus{margin-top:12px;display:flex;gap:8px}
+.plus div{flex:1;border:1px solid var(--line);border-radius:10px;padding:7px 9px;font-size:11px;line-height:1.5;color:var(--muted)}
+.plus b{display:block;color:var(--navy-d);font-size:12px}
+
+/* pipeline panel */
+.pipe{position:relative;padding-right:22px}
+.pipe::before{content:"";position:absolute;right:8px;top:14px;bottom:20px;width:2px;background:linear-gradient(var(--sky),var(--navy))}
+.step{position:relative;margin-bottom:8px;background:var(--tint);border-radius:10px;padding:7px 10px}
+.step::before{content:"";position:absolute;right:-19px;top:12px;width:8px;height:8px;border-radius:50%;background:#fff;border:2px solid var(--sky)}
+.step b{display:block;font-size:12.6px;color:var(--navy-d);line-height:1.4}
+.step small{display:block;font-size:10.5px;color:var(--muted);line-height:1.5}
+.step .en{font-size:10px;color:var(--navy);opacity:.75}
+.agents{display:flex;gap:5px;margin-top:5px}
+.agents span{flex:1;text-align:center;font-size:10.5px;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:7px;padding:3px 0;color:var(--navy-d)}
+.step.out{background:var(--navy-d)}
+.step.out::before{background:var(--sky);border-color:var(--sky)}
+.step.out b{color:#fff}
+.step.out small{color:#a9cbe4}
+.evo{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:11px;color:var(--muted)}
+.evo .box{flex:1;border:1px solid var(--line);border-radius:10px;padding:6px 8px;line-height:1.45}
+.evo .box b{display:block;color:var(--navy-d);font-size:11.5px}
+.evo svg{width:14px;height:14px;color:var(--sky);flex:none}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.chips span{direction:ltr;font-size:10.5px;border:1px solid var(--line);border-radius:6px;padding:1px 7px;color:var(--navy-d);background:#fff}
+.small-title{font-size:11px;font-weight:600;color:var(--muted);margin-top:12px}
+
+/* back cover */
+.backc{padding-bottom:0}
+table.cmp{width:100%;border-collapse:collapse;font-size:11px;margin-top:4px}
+.cmp th{font-size:9.6px;color:var(--muted);font-weight:600;padding:4px 1px;text-align:center;line-height:1.3;vertical-align:bottom}
+.cmp th:first-child,.cmp td:first-child{text-align:right}
+.cmp td{padding:5px 1px;text-align:center;border-top:1px solid var(--line);line-height:1.35}
+.cmp td:first-child{color:var(--ink);font-weight:500}
+.cmp .o{background:var(--tint)}
+.cmp th.o{color:var(--navy);font-weight:700;border-radius:8px 8px 0 0}
+.d{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:middle}
+.d.y{background:var(--sky)}
+.d.p{background:linear-gradient(90deg,var(--line) 50%,var(--sky) 50%)}
+.d.n{background:var(--line)}
+.legend{display:flex;gap:12px;font-size:10px;color:var(--muted);margin-top:6px}
+.legend span{display:inline-flex;align-items:center;gap:4px}
+.team{list-style:none;font-size:12px;color:var(--ink)}
+.team li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:5px 0;border-bottom:1px dashed var(--line)}
+.team li:last-child{border-bottom:0}
+.team a{direction:ltr;unicode-bidi:isolate;color:var(--navy);font-weight:600;font-size:11.5px;text-decoration:none;white-space:nowrap}
+.backfoot .ig{margin-inline-start:auto;display:flex;align-items:center;gap:6px;color:#fff;text-decoration:none;font-size:11.5px;direction:ltr;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:4px 10px}
+.backfoot .ig svg{width:16px;height:16px;color:#fff}
+.sup{list-style:none;font-size:12px;display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--ink)}
+.backfoot{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(165deg,#005A8F,#022B45);color:#fff;padding:16px 26px 18px;display:flex;align-items:center;gap:14px}
+.backfoot svg{width:60px;height:43px;color:#fff;flex:none}
+.backfoot .w{direction:ltr;font-size:22px;font-weight:700;line-height:1}
+.backfoot .w b{color:var(--sky)}
+.backfoot p{font-size:10.8px;line-height:1.6;color:rgba(255,255,255,.78)}
+
+/* ---------- print: two A4 landscape sheets (outside + inside) ---------- */
+#print{display:none}
+@media print{
+  @page{size:A4 landscape;margin:0}
+  html,body{height:auto;overflow:visible;background:#fff;display:block}
+  .topbar,.stage,.controls,.hint{display:none !important}
+  #print{display:block}
+  .ppage{width:297mm;height:210mm;display:flex;direction:ltr;overflow:hidden;break-after:page;page-break-after:always}
+  .ppage .face{position:relative;inset:auto;transform:none;flex:none;width:340px;height:720px;zoom:1.1;backface-visibility:visible}
+  .ppage .shade{display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media (prefers-reduced-motion:reduce){ .dots button{transition:none} }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="omid-mark" viewBox="370 296 404 284">
+      <path fill="currentColor" d="M742.78 565.4C739.73 565.4 736.71 564.85 733.82 563.78L655.08 534.38C654.32 534.1 653.94 533.25 654.22 532.49L656.21 527.07 635.08 519.19C639.27 507.91 643.87 495.46 648.46 482.94L669.19 490.67 671.28 486.91C671.53 486.47 672.02 486.18 672.53 486.18 672.7 486.18 672.87 486.21 673.030 486.27L751.78 515.69C765.03 520.63 771.78 535.45 766.84 548.72 763.1 558.69 753.43 565.4 742.78 565.4Z"/>
+      <rect fill="currentColor" x="496.01" y="467.89" width="40.33" height="107.49"/>
+      <rect fill="#009BF5" x="494.62" y="400.72" width="43.12" height="43.12" transform="matrix(0.707107 -0.707107 0.707107 0.707107 -147.41 488.68)"/>
+      <path fill="currentColor" d="M517.52 301.15C438.64 301.15 374.49 365.33 374.49 444.18 374.49 502.77 409.89 553.23 460.45 575.3L460.45 518.32C438.25 501.21 423.91 474.33 423.91 444.17 423.91 392.55 465.9 350.56 517.52 350.56 569.14 350.56 611.11 392.55 611.11 444.17 611.11 474.41 596.71 501.34 574.4 518.45L574.4 575.37C625.03 553.36 660.53 502.82 660.53 444.17 660.53 365.31 596.37 301.14 517.52 301.14Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <div class="brand">
+    <svg aria-hidden="true"><use href="#omid-mark"/></svg>
+    <span class="en">Omid</span>
+    <span class="sub">بروشور تفاعلي</span>
+  </div>
+  <button class="btn-ghost" id="printBtn" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+    طباعة
+  </button>
+</header>
+
+<main class="stage" id="stage">
+  <div class="scaler" id="scaler">
+    <div class="floor" id="floor"></div>
+    <div class="sheet" id="sheet">
+
+      <!-- LEFT PANEL: front = inside-left (how it verifies) · back = inner flap outside (case study) -->
+      <div class="panel" id="pL">
+        <section class="face front crease-r">
+          <span class="kicker">التحقق متعدد الوكلاء</span>
+          <h2>كيف يتحقق Omid من الخبر؟</h2>
+          <div class="pipe">
+            <div class="step">
+              <b>نص المقال الإخباري</b>
+              <small>المدخلات بعد تجاوز حارس البوابة (التحقق من المدخلات)</small>
+            </div>
+            <div class="step">
+              <b>وكيل استخراج الادعاءات <span class="en">Claim Extractor</span></b>
+              <small>يفكّك النص إلى ادعاءات مستقلة قابلة للتحقق</small>
+            </div>
+            <div class="step">
+              <b>جلب الأدلة <span class="en">Evidence Retriever</span></b>
+              <small class="en" style="text-align:right">Tavily · Google Fact Check Tools</small>
+            </div>
+            <div class="step">
+              <b>غرفة المحلفين: نقاش الوكلاء</b>
+              <div class="agents"><span>المتشكّك</span><span>التجريبي</span><span>السياقي</span></div>
+            </div>
+            <div class="step">
+              <b>التجميع ← وكيل التفسير</b>
+              <small>توحيد آراء المحلفين وصياغة تفسير واضح</small>
+            </div>
+            <div class="step out">
+              <b>النتيجة: تحليل كامل للخبر</b>
+              <small>حكم قابل للتفسير يستند إلى أدلة آنية</small>
+            </div>
+          </div>
+          <div class="evo">
+            <div class="box"><b>المرحلة الأولى</b>مصنّف ثنائي · دقة 81.7%</div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+            <div class="box"><b>المرحلة الثانية</b>مدقق متعدد الوكلاء <span class="en">LangGraph</span></div>
+          </div>
+          <div class="small-title">مبني على</div>
+          <div class="chips">
+            <span>Django</span><span>FastAPI</span><span>LangGraph</span><span>MARBERTv2</span><span>PostgreSQL</span><span>Neo4j</span><span>Redis + Celery</span><span>React</span>
+          </div>
+          <div class="shade"></div>
+        </section>
+
+        <section class="face back crease-l">
+          <span class="kicker">توثيق المشكلة</span>
+          <h2>خبر عاجل… أم تضليل؟</h2>
+          <div class="post">
+            <div class="post-head"><span class="avatar"></span>منشور متداول على وسائل التواصل</div>
+            <p class="post-text"><span class="alert">تصريح خطير وعاجل:</span> المبعوث الأممي الخاص إلى سوريا يعلن رسمياً فشل كافة مسارات الحل السياسي، ويؤكد: أيام قادمة سوداء تنتظر السوريين، ولا يوجد حل إلا بتدخل عسكري دولي قريباً جداً. انشروا الخبر ليعرف الجميع حجم المؤامرة القذرة التي تحاك في الغرف المغلقة!</p>
+          </div>
+          <div class="arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            تحليل Omid
+          </div>
+          <div class="verdict">
+            <div class="v"><b>مزيّف</b><span class="en">95%</span></div>
+            <p>الوكلاء اكتشفوا عدم وجود تصريح رسمي، والمصادر تنفي الخبر.</p>
+          </div>
+          <ul class="meters">
+            <li>
+              <div class="m-row"><span class="k">كشف الدعاية</span><span class="pct">100%</span></div>
+              <div class="mini-chips"><span>الاستثارة بالخوف</span><span>اللغة المشحونة</span><span>التنابز بالألقاب</span></div>
+            </li>
+            <li>
+              <div class="m-row"><span class="k">تحليل المشاعر</span><span class="val">سلبي</span><span class="pct">95%</span></div>
+              <div class="bar"><i style="--v:95%"></i></div>
+            </li>
+            <li>
+              <div class="m-row"><span class="k">الموضوع</span><span class="val">السياسة › الشأن السوري</span><span class="pct">93%</span></div>
+              <div class="bar"><i style="--v:93%"></i></div>
+            </li>
+            <li>
+              <div class="m-row"><span class="k">اللهجة</span><span class="val">سورية</span><span class="pct">75%</span></div>
+              <div class="bar"><i style="--v:75%"></i></div>
+            </li>
+            <li>
+              <div class="m-row"><span class="k">خطاب الكراهية</span><span class="val">لا يوجد</span><span class="pct">89%</span></div>
+              <div class="bar"><i style="--v:89%"></i></div>
+            </li>
+          </ul>
+          <div class="shade"></div>
+        </section>
+      </div>
+
+      <!-- MIDDLE PANEL: front = inside-middle (modules) · back = back cover -->
+      <div class="panel" id="pM">
+        <section class="face front crease-both">
+          <span class="kicker">القدرات</span>
+          <h2>سبع مهام تحليلية في منصة واحدة</h2>
+          <ul class="mods">
+            <li class="mod"><span class="num">01</span><div><b>التحقق من المدخلات</b><small>حارس بوابة: ادعاء · ليس ادعاء · نص غير مفهوم</small></div><span class="metric">99.02%<span>F1-Macro</span></span></li>
+            <li class="mod"><span class="num">02</span><div><b>اكتشاف اللهجات</b><small>19 فئة: دول عربية + الفصحى</small></div><span class="metric">87.66%<span>Accuracy</span></span></li>
+            <li class="mod"><span class="num">03</span><div><b>تصنيف الموضوعات</b><small>هرمي: موجّه عام + 7 خبراء</small></div><span class="metric">97.1%<span>دقة الموجّه L1</span></span></li>
+            <li class="mod"><span class="num">04</span><div><b>تحليل المشاعر</b><small>دمج نموذجين CAMeLBERT + MARBERTv2</small></div><span class="metric">80%<span>Accuracy</span></span></li>
+            <li class="mod"><span class="num">05</span><div><b>كشف أساليب الدعاية</b><small>تصنيف متعدد التسميات لـ 21 أسلوباً</small></div><span class="metric">21<span>أسلوباً دعائياً</span></span></li>
+            <li class="mod"><span class="num">06</span><div><b>كشف خطاب الكراهية</b><small>MARBERTv2 بضبط دقيق</small></div><span class="metric">93.8%<span>Accuracy</span></span></li>
+            <li class="mod hl"><span class="num">07</span><div><b>اكتشاف الأخبار الكاذبة</b><small>هيئة وكلاء تتحقق بأدلة آنية</small></div><span class="metric">XAI<span>أحكام مفسّرة</span></span></li>
+          </ul>
+          <div class="plus">
+            <div><b>الرسم البياني المعرفي</b>ربط الكيانات والأحداث والمصادر عبر Neo4j</div>
+            <div><b>المساعد الذكي</b>دردشة تفاعلية مع استشهادات بالمصادر</div>
+          </div>
+          <div class="shade"></div>
+        </section>
+
+        <section class="face back backc crease-both">
+          <span class="kicker">المقارنة</span>
+          <h2 style="margin-bottom:6px">Omid مقابل منصات التحقق الحالية</h2>
+          <table class="cmp">
+            <thead>
+              <tr><th>الميزة</th><th class="o">Omid</th><th>مسبار</th><th>تأكد</th><th>فتبينوا</th><th>تنبيه</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>كشف الأخبار الكاذبة آلياً ولحظياً</td><td class="o"><i class="d y"></i></td><td><i class="d n"></i></td><td><i class="d p"></i></td><td><i class="d p"></i></td><td><i class="d p"></i></td></tr>
+              <tr><td>كشف أساليب الدعاية</td><td class="o"><i class="d y"></i></td><td><i class="d n"></i></td><td><i class="d n"></i></td><td><i class="d n"></i></td><td><i class="d p"></i></td></tr>
+              <tr><td>كشف خطاب الكراهية</td><td class="o"><i class="d y"></i></td><td><i class="d n"></i></td><td><i class="d n"></i></td><td><i class="d n"></i></td><td><i class="d n"></i></td></tr>
+              <tr><td>تحليل المشاعر</td><td class="o"><i class="d y"></i></td><td><i class="d n"></i></td><td><i class="d n"></i></td><td><i class="d n"></i></td><td><i class="d y"></i></td></tr>
+              <tr><td>دعم اللهجات العامية</td><td class="o"><i class="d y"></i></td><td><i class="d p"></i></td><td><i class="d p"></i></td><td><i class="d p"></i></td><td><i class="d p"></i></td></tr>
+              <tr><td>استخراج المواضيع آلياً</td><td class="o"><i class="d y"></i></td><td><i class="d n"></i></td><td><i class="d n"></i></td><td><i class="d n"></i></td><td><i class="d y"></i></td></tr>
+              <tr><td>الرسم البياني المعرفي</td><td class="o"><i class="d y"></i></td><td><i class="d n"></i></td><td><i class="d n"></i></td><td><i class="d n"></i></td><td><i class="d n"></i></td></tr>
+              <tr><td>الدردشة التفاعلية</td><td class="o"><i class="d y"></i></td><td><i class="d n"></i></td><td><i class="d p"></i></td><td><i class="d p"></i></td><td><i class="d n"></i></td></tr>
+            </tbody>
+          </table>
+          <div class="legend"><span><i class="d y"></i>متوفر</span><span><i class="d p"></i>جزئي / يدوي</span><span><i class="d n"></i>غير متوفر</span></div>
+
+          <div class="sep"></div>
+          <h3>تواصل معنا</h3>
+          <ul class="team">
+            <li><span>تيما أيمن ضوا</span><a href="tel:+963932615481">+963 932 615 481</a></li>
+            <li><span>سارة ياسين نجاتي</span><a href="tel:+963958779283">+963 958 779 283</a></li>
+            <li><span>عبد العزيز اوشار</span><a href="tel:+963945450563">+963 945 450 563</a></li>
+            <li><span>محمود مفيد محمد</span><a href="tel:+963992653253">+963 992 653 253</a></li>
+            <li><span>محمد حمزة يوسف تيناوي</span><a href="tel:+963930787631">+963 930 787 631</a></li>
+          </ul>
+
+          <div class="backfoot">
+            <svg aria-hidden="true"><use href="#omid-mark"/></svg>
+            <div class="w">Om<b>i</b>d</div>
+            <a class="ig" href="https://www.instagram.com/omid.ai.official" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></svg>
+              <span>@omid.ai.official</span>
+            </a>
+          </div>
+          <div class="shade"></div>
+        </section>
+      </div>
+
+      <!-- RIGHT PANEL: front = inside-right (why) · back = front cover -->
+      <div class="panel" id="pR">
+        <section class="face front crease-l">
+          <span class="kicker">المشكلة</span>
+          <h2>لماذا Omid؟</h2>
+          <p class="lead">يشهد الفضاء الرقمي العربي تدفقاً إخبارياً هائلاً تُستغل فيه الأحداث لنشر الشائعات وتوجيه الرأي العام، فتتداخل الأخبار الكاذبة والدعاية وخطاب الكراهية بأساليب خفية يصعب فرزها يدوياً.</p>
+          <ul class="gaps">
+            <li>
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+              <div><b>تلاعب مبطّن</b><p>استقطاب عاطفي ودعاية يصعب على القارئ والصحفي كشفها بالعين المجردة.</p></div>
+            </li>
+            <li>
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span>
+              <div><b>تنوّع اللهجات</b><p>تباين اللهجات العربية وتعقيد الصرف يُربك القياس الآلي للمحتوى.</p></div>
+            </li>
+            <li>
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M17.5 14v7M14 17.5h7"/></svg></span>
+              <div><b>أدوات متفرّقة</b><p>لا منصة عربية موحّدة تجمع التصنيف وتحليل المشاعر وكشف التلاعب، فيبقى الاعتماد على التدقيق البشري البطيء.</p></div>
+            </li>
+          </ul>
+          <div class="sep"></div>
+          <h3>من سيستفيد من Omid؟</h3>
+          <ul class="aud">
+            <li><span class="n">1</span><div><b>المؤسسات الإعلامية وغرف الأخبار</b><p>تسريع عمل فرق التحرير، وفلترة سيل الأخبار الواردة لحظياً، ومنع نشر أخبار كاذبة تضر بالمصداقية.</p></div></li>
+            <li><span class="n">2</span><div><b>الصحفيون والباحثون المستقلون</b><p>مساعد ذكي للتدقيق السريع، واستكشاف المواضيع الرائجة، وفهم التوجهات العاطفية للرأي العام.</p></div></li>
+            <li><span class="n">3</span><div><b>الجمهور العام ومستخدمو التواصل</b><p>منصة بسيطة لحماية الأفراد من التضليل اليومي، والتأكد من صحة الأخبار قبل مشاركتها.</p></div></li>
+          </ul>
+          <div class="shade"></div>
+        </section>
+
+        <section class="face back cover">
+          <div class="dots-bg"></div>
+          <div class="ring"></div>
+          <div style="margin:auto 0">
+            <div class="cover-brand">
+              <svg aria-hidden="true"><use href="#omid-mark"/></svg>
+              <div class="wordmark">Om<b>i</b>d</div>
+            </div>
+            <h1 style="margin-top:22px">نظام ذكي لاستخلاص المعرفة وتحليل المحتوى النصي في الأخبار العربية</h1>
+            <p class="en">An Intelligent System for Knowledge Extraction<br>and Textual Analysis of Arabic News</p>
+          </div>
+          <div>
+            <div class="cover-tags"><span>الأخبار الكاذبة</span><span>الدعاية</span><span>خطاب الكراهية</span><span>المشاعر</span><span>اللهجات</span></div>
+          </div>
+          <div class="shade"></div>
+        </section>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer class="controls">
+  <button class="nav" id="prev" type="button" aria-label="السابق">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+  </button>
+  <div class="steps">
+    <div class="dots" id="dots"></div>
+    <div class="label" id="label" aria-live="polite"></div>
+  </div>
+  <button class="nav" id="next" type="button" aria-label="التالي">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+</footer>
+<p class="hint">اسحب الصفحة لتقليبها، أو انقر عليها، أو استخدم الأسهم</p>
+
+<div id="print"></div>
+
+<script>
+(() => {
+  const W = 340, H = 720, MAX_SCALE = 1.15;
+  const $ = id => document.getElementById(id);
+  const stage = $('stage'), scaler = $('scaler'), sheet = $('sheet'), floor = $('floor');
+  const pL = $('pL'), pM = $('pM'), pR = $('pR');
+
+  // L: left flap angle (180 = folded in), R: right flap / cover (-180 = folded in), F: whole-sheet turn
+  const STATES = [
+    { L: 180, R: -180, F: 0,   label: 'الغلاف الأمامي' },
+    { L: 180, R: 0,    F: 0,   label: 'فتح الغلاف' },
+    { L: 0,   R: 0,    F: 0,   label: 'الصفحات الداخلية' },
+    { L: 0,   R: 0,    F: 180, label: 'الوجه الخارجي' },
+    { L: 180, R: -180, F: 180, label: 'الغلاف الخلفي' },
+  ];
+  const N = STATES.length;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rad = Math.PI / 180;
+  const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const pick = s => ({ L: s.L, R: s.R, F: s.F });
+
+  let state = 0, cur = pick(STATES[0]), raf = 0, scale = 1, availW = 0, availH = 0;
+  const shades = p => p.querySelectorAll('.shade');
+
+  function measure() {
+    availW = Math.max(stage.clientWidth - 32, 100);
+    availH = Math.max(stage.clientHeight - 36, 100);
+  }
+
+  function apply(v) {
+    cur = v;
+    pL.style.transform = `translateZ(${2 * v.L / 180}px) rotateY(${v.L}deg)`;
+    pR.style.transform = `translateZ(${-4 * v.R / 180}px) rotateY(${v.R}deg)`;
+
+    // visible footprint of the unfolded sheet, used to centre and zoom the "camera"
+    const left = W - W * Math.max(Math.cos(v.L * rad), 0);
+    const right = 2 * W + W * Math.max(Math.cos(v.R * rad), 0);
+    const vis = right - left, c = (left + right) / 2;
+    const cf = Math.cos(v.F * rad);
+    sheet.style.transform = `translateX(${(1.5 * W - c) * cf}px) rotateY(${v.F}deg)`;
+
+    scale = Math.min(availW / vis, availH / H, MAX_SCALE);
+    scaler.style.transform = `scale(${scale})`;
+
+    // page-turn shading: a leaf darkens as it stands perpendicular to the viewer
+    const sL = Math.abs(Math.sin(v.L * rad)), sR = Math.abs(Math.sin(v.R * rad)), sF = Math.abs(Math.sin(v.F * rad));
+    shades(pL).forEach(s => s.style.opacity = .55 * sL + .35 * sF);
+    shades(pR).forEach(s => s.style.opacity = .55 * sR + .35 * sF);
+    shades(pM).forEach(s => s.style.opacity = .22 * Math.max(sL, sR) + .35 * sF);
+
+    const fw = vis * (.3 + .7 * Math.abs(cf));
+    floor.style.width = fw + 'px';
+    floor.style.left = (1.5 * W - fw / 2) + 'px';
+  }
+
+  function tween(a, b, dur) {
+    cancelAnimationFrame(raf);
+    const win = { L: [0, 1], R: [0, 1], F: [0, 1] };
+    const both = a.L !== b.L && a.R !== b.R;
+    if (both) {
+      // fold the inner flap before the cover, unfold the cover before the inner flap
+      if (b.L > a.L) { win.L = [0, .58]; win.R = [.42, 1]; }
+      else { win.R = [0, .58]; win.L = [.42, 1]; }
+    }
+    if (dur == null) dur = a.F !== b.F ? 1300 : both ? 1500 : 950;
+    if (reduce) dur = 1;
+    const t0 = performance.now();
+    const frame = now => {
+      const t = Math.min((now - t0) / dur, 1);
+      const v = {};
+      for (const k of ['L', 'R', 'F']) {
+        const [s, e] = win[k];
+        v[k] = a[k] + (b[k] - a[k]) * ease(clamp((t - s) / (e - s), 0, 1));
+      }
+      apply(v);
+      if (t < 1) raf = requestAnimationFrame(frame);
+      else { raf = 0; v.F = ((v.F % 360) + 360) % 360; apply(v); }
+    };
+    raf = requestAnimationFrame(frame);
+  }
+
+  function goTo(i, dir = 0) {
+    const from = state;
+    i = (i + N) % N;
+    const target = pick(STATES[i]);
+    // keep spinning the same way when wrapping around
+    if (dir > 0 && from === N - 1 && i === 0) target.F = 360;
+    if (dir < 0 && from === 0 && i === N - 1) target.F = -180;
+    state = i;
+    updateUI();
+    tween({ ...cur }, target);
+  }
+  const next = () => goTo(state + 1, 1);
+  const prev = () => goTo(state - 1, -1);
+
+  // ---- controls ----
+  const dots = $('dots'), label = $('label');
+  STATES.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', s.label);
+    b.addEventListener('click', () => goTo(i, i > state ? 1 : -1));
+    dots.appendChild(b);
+  });
+  function updateUI() {
+    [...dots.children].forEach((b, i) => b.setAttribute('aria-current', i === state));
+    label.textContent = STATES[state].label;
+  }
+  $('next').addEventListener('click', next);
+  $('prev').addEventListener('click', prev);
+  $('printBtn').addEventListener('click', () => window.print());
+  addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); next(); }
+    else if (e.key === 'ArrowRight' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+    else if (e.key === 'Home') goTo(0, -1);
+  });
+
+  // ---- drag a leaf to turn it (flipbook) ----
+  let drag = null;
+  sheet.addEventListener('pointerdown', e => {
+    if (e.button !== 0 || e.target.closest('a')) return;
+    const panel = e.target.closest('.panel');
+    let to = null, sign = 0;
+    if (state === 0) { to = 1; sign = 1; }                       // pull the cover open to the right
+    else if (state === 1) {
+      if (panel === pR) { to = 0; sign = -1; }                   // fold the cover back
+      else { to = 2; sign = -1; }                                // pull the inner flap open to the left
+    } else if (state === 2 && panel === pL) { to = 1; sign = 1; } // fold the inner flap back
+    drag = { x0: e.clientX, from: state, base: { ...cur }, to, sign, moved: false, p: 0 };
+    sheet.setPointerCapture(e.pointerId);
+  });
+  sheet.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const dx = e.clientX - drag.x0;
+    if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; cancelAnimationFrame(raf); }
+    if (!drag.moved || drag.to == null) return;
+    const p = clamp(drag.sign * dx / (W * scale * .9), 0, 1);
+    drag.p = p;
+    const a = drag.base, b = STATES[drag.to];
+    apply({ L: a.L + (b.L - a.L) * p, R: a.R + (b.R - a.R) * p, F: a.F + (b.F - a.F) * p });
+  });
+  const endDrag = () => {
+    if (!drag) return;
+    const d = drag; drag = null;
+    if (!d.moved) { next(); return; }
+    if (d.to == null) return;
+    if (d.p > .3) state = d.to;
+    updateUI();
+    tween({ ...cur }, pick(STATES[state]), 520);
+  };
+  sheet.addEventListener('pointerup', endDrag);
+  sheet.addEventListener('pointercancel', endDrag);
+
+  // ---- print: lay the six faces flat on two A4 sheets ----
+  function buildPrint() {
+    const face = (p, side) => {
+      const f = p.querySelector('.face.' + side).cloneNode(true);
+      f.querySelectorAll('.shade').forEach(s => s.remove());
+      return f;
+    };
+    const pages = [
+      [face(pR, 'back'), face(pM, 'back'), face(pL, 'back')],     // outside: cover · back · flap
+      [face(pL, 'front'), face(pM, 'front'), face(pR, 'front')],  // inside
+    ];
+    const root = $('print');
+    pages.forEach(faces => {
+      const pg = document.createElement('div');
+      pg.className = 'ppage';
+      faces.forEach(f => pg.appendChild(f));
+      root.appendChild(pg);
+    });
+  }
+
+  addEventListener('resize', () => { measure(); apply(cur); });
+  measure();
+  updateUI();
+  apply(cur);
+  buildPrint();
+
+  // a small peek of the cover so it reads as a page that can be turned
+  if (!reduce) setTimeout(() => {
+    if (state !== 0 || drag) return;
+    tween({ ...cur }, { L: 180, R: -150, F: 0 }, 650);
+    setTimeout(() => { if (state === 0 && !drag) tween({ ...cur }, pick(STATES[0]), 650); }, 700);
+  }, 700);
+})();
+</script>
+</body>
+</html>
